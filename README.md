@@ -1,108 +1,85 @@
-# Mathias’s dotfiles
-
-![Screenshot of my shell prompt](http://i.imgur.com/EkEtphC.png)
+# matuzo’s dotfiles
 
 ## Installation
 
-### Using Git and the bootstrap script
+These files are mostly for me, but you may find some interesting settings inside. If you want to start your own dotfiles repo, I would recommend to fork [mathiasbynens](https://github.com/matuzo/dotfiles)'s.
 
-You can clone the repository wherever you want. (I like to keep it in `~/Projects/dotfiles`, with `~/dotfiles` as a symlink.) The bootstrapper script will pull in the latest version and copy the files to your home folder.
+Beside my own scripts and settings, most of the stuff I have used is copied from or inspired by the dotfiles of [mathiasbynens](https://github.com/matuzo/dotfiles), [cowboy](https://github.com/cowboy/dotfiles/) and [holman](https://github.com/holman/dotfiles/).
 
-```bash
-git clone https://github.com/mathiasbynens/dotfiles.git && cd dotfiles && source bootstrap.sh
-```
 
-To update, `cd` into your local `dotfiles` repository and then:
+## Files
 
-```bash
-source bootstrap.sh
-```
+A quick overview of the files
 
-Alternatively, to update while avoiding the confirmation prompt:
+### [init](init)
 
-```bash
-set -- -f; source bootstrap.sh
-```
+Terminal and iTerm themes  
+Sublime settings and packages
 
-### Git-free install
+### [.aliases](.aliases), [.functions](.functions)
 
-To install these dotfiles without Git:
+Useful aliases and functions
 
-```bash
-cd; curl -#L https://github.com/mathiasbynens/dotfiles/tarball/master | tar -xzv --strip-components 1 --exclude={README.md,bootstrap.sh,LICENSE-MIT.txt}
-```
+Examples:  
+	
+	alias s="cd ~/Sites"
+	alias ..="cd .."
+	
+	# Hide/show all desktop icons (useful when presenting)
+	alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+	alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+	
 
-To update later on, just run that command again.
+### [.gitconfig](.gitconfig)
 
-### Specify the `$PATH`
+Git settings
 
-If `~/.path` exists, it will be sourced along with the other files, before any feature testing (such as [detecting which version of `ls` is being used](https://github.com/mathiasbynens/dotfiles/blob/aff769fd75225d8f2e481185a71d5e05b76002dc/.aliases#L21-26)) takes place.
+Examples:
 
-Here’s an example `~/.path` file that adds `~/utils` to the `$PATH`:
+	# View the current working tree status using the short format
+	s = status -s
+	
+	# Commit all changes
+	ca = !git add -A && git commit -av
 
-```bash
-export PATH="$HOME/utils:$PATH"
-```
+### [.osx](.osx)
 
-### Add custom commands without creating a new fork
+OSX defaults
 
-If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
+Examples:
 
-My `~/.extra` looks something like this:
+	# Hot corners
+	# Top right screen corner → Mission Control
+	defaults write com.apple.dock wvous-tr-corner -int 2
+	defaults write com.apple.dock wvous-tr-modifier -int 0
+	
+	# Don’t display the annoying prompt when quitting iTerm
+	defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
-```bash
-# Git credentials
-# Not in the repository, to prevent people from accidentally committing under my name
-GIT_AUTHOR_NAME="Mathias Bynens"
-GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="mathias@mailinator.com"
-GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
-```
+### [brew.sh](brew.sh)
 
-You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/mathiasbynens/dotfiles/fork) instead, though.
+Installation of npm, mcrypt, etc. via brew
 
-### Sensible OS X defaults
+Examples:
 
-When setting up a new Mac, you may want to set some sensible OS X defaults:
+	brew install tree
+	
+	brew install node
 
-```bash
-./.osx
-```
+### [brew_casks.sh](brew_casks.sh)
 
-### Install Homebrew formulae
+Installation of browsers and other software via brew cask
 
-When setting up a new Mac, you may want to install some common [Homebrew](http://brew.sh/) formulae (after installing Homebrew, of course):
+Examples:
 
-```bash
-./brew.sh
-```
+	for cask in "${casks[@]}"; do
+		brew cask install $cask --appdir=/Applications
+	done
+	
+	brew cask cleanup
+	brew cask alfred link
 
-## Feedback
+### [npm.sh](npm.sh)
 
-Suggestions/improvements
-[welcome](https://github.com/mathiasbynens/dotfiles/issues)!
-
-## Author
-
-| [![twitter/mathias](http://gravatar.com/avatar/24e08a9ea84deb17ae121074d0f17125?s=70)](http://twitter.com/mathias "Follow @mathias on Twitter") |
-|---|
-| [Mathias Bynens](https://mathiasbynens.be/) |
-
-## Thanks to…
-
-* @ptb and [his _OS X Lion Setup_ repository](https://github.com/ptb/Mac-OS-X-Lion-Setup)
-* [Ben Alman](http://benalman.com/) and his [dotfiles repository](https://github.com/cowboy/dotfiles)
-* [Chris Gerke](http://www.randomsquared.com/) and his [tutorial on creating an OS X SOE master image](http://chris-gerke.blogspot.com/2012/04/mac-osx-soe-master-image-day-7.html) + [_Insta_ repository](https://github.com/cgerke/Insta)
-* [Cãtãlin Mariş](https://github.com/alrra) and his [dotfiles repository](https://github.com/alrra/dotfiles)
-* [Gianni Chiappetta](http://gf3.ca/) for sharing his [amazing collection of dotfiles](https://github.com/gf3/dotfiles)
-* [Jan Moesen](http://jan.moesen.nu/) and his [ancient `.bash_profile`](https://gist.github.com/1156154) + [shiny _tilde_ repository](https://github.com/janmoesen/tilde)
-* [Lauri ‘Lri’ Ranta](http://lri.me/) for sharing [loads of hidden preferences](http://osxnotes.net/defaults.html)
-* [Matijs Brinkhuis](http://hotfusion.nl/) and his [dotfiles repository](https://github.com/matijs/dotfiles)
-* [Nicolas Gallagher](http://nicolasgallagher.com/) and his [dotfiles repository](https://github.com/necolas/dotfiles)
-* [Sindre Sorhus](http://sindresorhus.com/)
-* [Tom Ryder](http://blog.sanctum.geek.nz/) and his [dotfiles repository](https://github.com/tejr/dotfiles)
-* [Kevin Suttle](http://kevinsuttle.com/) and his [dotfiles repository](https://github.com/kevinSuttle/dotfiles) and [OSXDefaults project](https://github.com/kevinSuttle/OSXDefaults), which aims to provide better documentation for [`~/.osx`](https://mths.be/osx)
-* [Haralan Dobrev](http://hkdobrev.com/)
-* anyone who [contributed a patch](https://github.com/mathiasbynens/dotfiles/contributors) or [made a helpful suggestion](https://github.com/mathiasbynens/dotfiles/issues)
+Installation of bower, gulp and yo.
+	

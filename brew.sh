@@ -1,4 +1,15 @@
-#!/usr/bin/env bash
+# Install Homebrew.
+if [[ ! "$(type -P brew)" ]]; then
+  e_header "Installing Homebrew"
+  true | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+# Exit if, for some reason, Homebrew is not installed.
+[[ ! "$(type -P brew)" ]] && e_error "Homebrew failed to install." && return 1
+
+e_header "Updating Homebrew"
+brew doctor
+brew update
 
 # Install command-line tools using Homebrew.
 
@@ -8,31 +19,21 @@ sudo -v
 # Keep-alive: update existing `sudo` time stamp until `.osx` has finished.
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# Make sure we’re using the latest Homebrew.
-brew update
-
-# Upgrade any already-installed formulae.
-brew upgrade
-
-# Install GNU core utilities (those that come with OS X are outdated).
-# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-brew install coreutils
-sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
-
 
 # Install more recent versions of some OS X tools.
-brew install vim --override-system-vi
-brew install homebrew/php/php55 --with-gmp
+# brew tap homebrew/dupes
+# brew tap homebrew/versions
+# brew tap homebrew/homebrew-php
+# brew install php55
 
 # Install other useful binaries.
-brew install ack
-brew install git
 brew install mcrypt
 brew install imagemagick --with-webp
 brew install rename
 brew install tree
 brew install webkit2png
 brew install caskroom/cask/brew-cask
+brew tap caskroom/versions
 
 # Install Node.js. Note: this installs `npm` too, using the recommended
 # installation method.
