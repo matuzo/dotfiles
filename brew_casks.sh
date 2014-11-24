@@ -19,6 +19,7 @@ casks=(
   keepassx
   mou
   netnewswire
+  onepassword
   opera
   sequel-pro
   sizeup

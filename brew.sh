@@ -1,8 +1,6 @@
 # Install Homebrew.
-if [[ ! "$(type -P brew)" ]]; then
   e_header "Installing Homebrew"
-  true | ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-fi
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Exit if, for some reason, Homebrew is not installed.
 [[ ! "$(type -P brew)" ]] && e_error "Homebrew failed to install." && return 1
@@ -28,7 +26,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Install other useful binaries.
 brew install mcrypt
-brew install imagemagick --with-webp
+#brew install imagemagick --with-webp
 brew install rename
 brew install tree
 brew install webkit2png

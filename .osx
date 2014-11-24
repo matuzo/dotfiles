@@ -6,7 +6,6 @@
 sudo -v
 
 mkdir ~/Sites
-mkdir ~/Projects
 
 # Keep-alive: update existing `sudo` time stamp until `.osx` has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
@@ -265,15 +264,15 @@ chflags nohidden ~/Library
 # add the given Folders (path relative to home directory) to Sidebar
 # . = Home directory
 
-for theFolder in "Projects" "Sites" "Downloads" "."; do
-	osascript -e 'on run {theFolder}' -e 'tell application "Finder"
-activate
-open (POSIX path of (path to home folder)) & theFolder as POSIX file
-	delay 0.2
-	tell application "System Events" to keystroke "t" using {command down, control down} 
-end tell'  -e 'end run' $theFolder 
-done
-osascript -e 'tell application "Finder" to close the every window'
+#for theFolder in "Projects" "Sites" "Downloads" "."; do
+#	osascript -e 'on run {theFolder}' -e 'tell application "Finder"
+#activate
+#open (POSIX path of (path to home folder)) & theFolder as POSIX file
+#	delay 0.2
+#	tell application "System Events" to keystroke "t" using {command down, control down} 
+#end tell'  -e 'end run' $theFolder 
+#done
+#osascript -e 'tell application "Finder" to close the every window'
 
 
 
@@ -444,16 +443,16 @@ defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
 # Don’t show the preferences window on next start
 defaults write com.irradiatedsoftware.SizeUp ShowPrefsOnNextStart -bool false
 
+echo "test"
+
 ###############################################################################
 # Sublime Text                                                                #
 ###############################################################################
 
 # Install Sublime Text settings
 cp -r init/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/Preferences.sublime-settings 2> /dev/null
-
 # Install Sublime Text Package Control
 cp -r init/Package\ Control.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Installed\ Packages/Package\ Control.sublime-package 2> /dev/null
-
 # Install Sublime Text packages
 cp -r init/Package\ Control.sublime-settings ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/Package\ Control.sublime-settings 2> /dev/null
 
@@ -463,7 +462,7 @@ cp -r init/Package\ Control.sublime-settings ~/Library/Application\ Support/Subl
 
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
 	"Dock" "Finder" "Mail" "Messages" "Safari" "SizeUp" "SystemUIServer" \
-	"Terminal" "Transmission" "iCal"; do
+	"iCal"; do
 	killall "${app}" > /dev/null 2>&1
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
